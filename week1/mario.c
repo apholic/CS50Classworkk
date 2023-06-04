@@ -20,13 +20,12 @@ int get_size (void)
         i = get_int ("What is the size? "); //make sure the user has correct input
     }
     while (i < 1);
-
-return i;
+    return i;
 }
 
 //print brick
 void print_brick (int i) 
-{   i = get_size();
+{   
     for (int k = 0; k < i; k++) //print out the rows
     {   for (int m = 0; m < i; m++) //print out the colums
         {
