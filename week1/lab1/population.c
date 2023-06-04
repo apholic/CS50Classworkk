@@ -4,16 +4,15 @@
 // declare functions
 int get_start_population(void);
 int get_end_population(int sp);
-int calculate_years (int ep, int sp);
+void calculate_years (int sp, int ep);
 
 
 int main(void)
 {
-    int sp; int ep; int y;
+    int sp; int ep;
     sp = get_start_population();
     ep = get_end_population(sp);
-    y = calculate_years (sp, ep);
-    printf("Years: %i\n", y);
+    calculate_years (sp, ep);
 }
 
 
@@ -42,7 +41,7 @@ int get_end_population (int sp) //prompt for ending population
 }
 
 
-int calculate_years(int ep, int sp) //calculate years it takes to reach ending population
+void calculate_years(int sp, int ep) //calculate years it takes to reach ending population
 {   
     int y;
     for (y = 0; sp < ep; y++)
@@ -50,7 +49,9 @@ int calculate_years(int ep, int sp) //calculate years it takes to reach ending p
         int growth = sp / 3;
         int decade = sp / 4;
         sp = sp + growth - decade;
+        //printf("growth: %d\n", growth);
+        //printf("decade: %d\n", decade);
     }
-    return y;
+   printf("Years: %i\n", y);
     
 }
