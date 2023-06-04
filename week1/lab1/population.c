@@ -20,38 +20,38 @@ int main(void)
 
 int get_start_population(void) //prompt for starting population
 {
-    int sp;
+    int startingpop;
     do 
     {
-        sp = get_int("Starting population size: ");
+        startingpop = get_int("Starting population size: ");
     }
-    while (sp < 9);
-    return sp;
+    while (startingpop < 9);
+    return startingpop;
 }
 
-int get_end_population (int sp) //prompt for ending population
+int get_end_population (int startingpop) //prompt for ending population
 {
-    int ep;
+    int endingpop;
     do
     {
-        ep = get_int("Ending population size: ");
+        endingpop = get_int("Ending population size: ");
     }
-    while (ep < sp);
-    return ep;
+    while (endingpop < startingpop);
+    return endingpop;
 }
 
 
-void calculate_years(int sp, int ep) //calculate years it takes to reach ending population
+void calculate_years(int startingpop, int endingpop) //calculate years it takes to reach ending population
 {   
-    int y;
-    for (y = 0; sp < ep; y++)
+    int years;
+    for (years = 0; startingpop < endingpop; years++)
     {
-        int growth = sp / 3;
-        int decade = sp / 4;
-        sp = sp + growth - decade;
+        int growth = startingpop / 3;
+        int decade = startingpop / 4;
+        startingpop = startingpop + growth - decade;
         //printf("growth: %d\n", growth);
         //printf("decade: %d\n", decade);
     }
-   printf("Years: %i\n", y);
+   printf("Years: %i\n", years);
     
 }
