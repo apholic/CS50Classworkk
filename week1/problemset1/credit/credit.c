@@ -12,7 +12,7 @@ int main(void)
 
     int nod;
     nod =  ndigits (number);
-    // printf("number of digits: %d \n", nod);
+    printf("number of digits: %d \n", nod);
 
 
   // add digits together (even)
@@ -20,20 +20,20 @@ int main(void)
     int d, q;
 
     for (d = 2; d < (nod + 1); d = d+2) //include the left most digit
-    {   
+    {
         q = sdig(d, number);
         q = 2 * q;
-        if (q>10)
+        if (q>9)
         {
             q = sdig(1, q) + sdig (2, q); //calculate digit again
         }
-        // printf("q: %d \n", q);
+        printf("q: %d \n", q);
         sumeven = sumeven + q;
     }
-   // printf("sumeven: %d \n", sumeven);
+   printf("sumeven: %d \n", sumeven);
 
     // add digits together (odd)
-    
+
     int i2, q2;
     int sumodd = 0;
 
@@ -43,33 +43,52 @@ int main(void)
         sumodd = sumodd + q2;
         printf("q2: %d \n", q2);
     }
-    // printf("sumodd: %d \n", sumodd);
+    printf("sumodd: %d \n", sumodd);
 
     // calculate the final digit of the sum
     int sum; int D;
     sum = sumeven + sumodd;
     D = sdig (1, sum);
-    // printf("digit of final sum: %d \n", D);
-    
+    printf("digit of final sum: %d \n", D);
+
     // print out number type
 
-    if (D > 0) 
+    if (D > 0)
     {
-        printf("Invalid number! \n");
+        printf("INVALID\n");
     }
     if (D == 0)
     {
         if (nod == 16)
         {
-            printf("Mstercard or VISA \n");
+            int n1;
+            n1 = sdig(nod, number);
+            if (n1 == 4)
+            {
+                printf("VISA\n");
+            }
+            else
+            {
+                printf("MASTERCARD\n");
+            }
         }
         if (nod == 13)
         {
-            printf("VISA \n");
+            printf("VISA\n");
         }
         if (nod == 15)
-        {
-            printf("American Express \n");
+        {   
+            int n1, n2;
+            n1 = sdig (nod, number);
+            n2 = sdig (nod-1, number);
+            if (n1 == 3 && (n2 == 4 || n2 ==7))
+            {
+                printf("AMEX\n");
+            }
+            else
+            {
+                printf("INVALID \n");
+            }
         }
     }
 }
@@ -82,9 +101,9 @@ int main(void)
    long number;
     do
     {
-        number = get_long("Enter card number: ");
+        number = get_long("Number: ");
     }
-    while (number < 1000000000000);  //make sure that the number has enough digit (min:13)
+    while (number < 100000000);  //make sure that the number has enough digit (min:9)
     return number;
   }
 
@@ -94,8 +113,8 @@ int ndigits(long number)
 {
 
     int nod;  // Nod stands for the total number of digits containted
-    long ntemp = number; 
-    for (nod = 0; ntemp > 0; nod++)  
+    long ntemp = number;
+    for (nod = 0; ntemp > 0; nod++)
     {
         ntemp = ntemp / 10;  // get the number of digit by dividing the number by 10 each time
     }
@@ -108,7 +127,7 @@ int sdig(int nd, long number)  //nd stands for the desired number of digit
     int i, rmd;  // q stands for the quotient
     long ntemp2 = number;
     for (i = 1; i < (nd + 1); i++)
-    {   
+    {
         rmd = ntemp2 % 10;
         ntemp2 = ntemp2 / 10;   //先计算余数，再替换数字
     }
