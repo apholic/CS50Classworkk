@@ -12,10 +12,11 @@ int main(void)
 
     int nod;
     nod =  ndigits (number);
-    printf("number of digits: %d \n", nod);
+    // printf("number of digits: %d \n", nod);
 
-
-  // add digits together (even)
+ if (nod == 13 || nod == 15 || nod == 16 )  //the following program only execute if the total number of digtis match the requirement
+ {
+    // add digits together (even)
     int sumeven = 0;
     int d, q;
 
@@ -27,10 +28,10 @@ int main(void)
         {
             q = sdig(1, q) + sdig (2, q); //calculate digit again
         }
-        printf("q: %d \n", q);
+        // printf("q: %d \n", q);
         sumeven = sumeven + q;
     }
-   printf("sumeven: %d \n", sumeven);
+   // printf("sumeven: %d \n", sumeven);
 
     // add digits together (odd)
 
@@ -41,18 +42,22 @@ int main(void)
     {
         q2 = sdig(i2, number);
         sumodd = sumodd + q2;
-        printf("q2: %d \n", q2);
+        // printf("q2: %d \n", q2);
     }
-    printf("sumodd: %d \n", sumodd);
+    // printf("sumodd: %d \n", sumodd);
 
     // calculate the final digit of the sum
     int sum; int D;
     sum = sumeven + sumodd;
     D = sdig (1, sum);
-    printf("digit of final sum: %d \n", D);
+    // printf("digit of final sum: %d \n", D);
 
     // print out number type
-
+    // get the first and second digit    
+    int n1, n2;
+    n1 = sdig (nod, number);
+    n2 = sdig (nod-1, number);
+    
     if (D > 0)
     {
         printf("INVALID\n");
@@ -61,26 +66,25 @@ int main(void)
     {
         if (nod == 16)
         {
-            int n1;
-            n1 = sdig(nod, number);
             if (n1 == 4)
             {
                 printf("VISA\n");
             }
-            else
+            else if (n1 == 5 && (n2 == 1 || n2 == 2 || n2 == 3 || n2 == 4 || n2 == 5))
             {
                 printf("MASTERCARD\n");
             }
+            else 
+            {
+                printf("INVALID\n");
+            }
         }
-        if (nod == 13)
+        if (nod == 13 && n1 == 4 )
         {
             printf("VISA\n");
         }
         if (nod == 15)
         {   
-            int n1, n2;
-            n1 = sdig (nod, number);
-            n2 = sdig (nod-1, number);
             if (n1 == 3 && (n2 == 4 || n2 ==7))
             {
                 printf("AMEX\n");
@@ -91,8 +95,12 @@ int main(void)
             }
         }
     }
-}
+ }
 
+ else {
+    printf("INVALID \n");
+ }
+}
 
   //get number input
 
