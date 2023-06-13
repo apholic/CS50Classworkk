@@ -44,7 +44,7 @@ int compute_score(string word)
     {
         if (word[i] >= 'a' && word[i] <= 'z')
         {
-            n = word[i] - 65;
+            n = word[i] - 65;  //这里出错了，因为大写的A从65开始，小写的a是从97，而输入不一定大小写统一，所以要先做统一大小写的步骤。
             p = POINTS [n];
         }
         else
