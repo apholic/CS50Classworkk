@@ -32,17 +32,11 @@ string input(void)
 //TO DO: Count the number of letters, words, and sentences.
 
 int count_letters(string text) 
-{
+{   
     int letters = 0;
-    int sum = 0;
-    int l = strlen(text);
-    char exclusion[] = {' ', '.', '?', '!', '"'};  //I want to create an exclusion rule that includes punctuations and spaces
-    int e = strlen(exclusion);
-    for ( int i = 0; i < l; i++)
-    {
-        for (int p = 0; p < e; p++)  //here I had a outbound problem but I dont't know why
-        {
-            if (text[i] != exclusion[p])
+    for ( int i = 0, l = strlen(text); i < l; i++)
+    {   
+            if (text[i] >= 'A' && text[i] <= 'z') //exclude chars other than letters
             {
                 letters = letters + 1;
             }
@@ -50,12 +44,9 @@ int count_letters(string text)
             {
                 letters = letters + 0;
             }
-        }
-        sum = sum + letters;
-
     }
 
-    return sum;
+    return letters;
 }
 
 //TO DO: calculate grade level using the Coleman-Liau intex: index = 0.0588 * L - 0.296 * S - 15.8
