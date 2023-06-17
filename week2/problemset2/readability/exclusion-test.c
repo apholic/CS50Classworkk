@@ -21,12 +21,12 @@ int main(void)
             if (text[i] != exclusion[p])
             {
                 p++;
-                letter = 1;
+                letter = 1;  //set value as either 1 or zero instead of having increments
             }
             else 
             {
                 letter = 0;
-                p = Elength;
+                p = Elength;  //The exiting condition is the most important part
             }
         }
 
