@@ -36,11 +36,11 @@ int count_letters(string text)
     int letters = 0;
     int sum = 0;
     int l = strlen(text);
-    char exclusion[] = {' ', '.', '?', '!', '"'}; 
+    char exclusion[] = {' ', '.', '?', '!', '"'};  //I want to create an exclusion rule that includes punctuations and spaces
     int e = strlen(exclusion);
     for ( int i = 0; i < l; i++)
     {
-        for (int p = 0; p < e; p++)  //exclusion rule
+        for (int p = 0; p < e; p++)  //here I had a outbound problem but I dont't know why
         {
             if (text[i] != exclusion[p])
             {
