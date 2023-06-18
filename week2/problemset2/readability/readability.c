@@ -39,7 +39,7 @@ int main(void)
     }
     else
     {
-        printf("Grade %d", rgrade);
+        printf("Grade %d\n", rgrade);
     }
 
 }
@@ -62,16 +62,16 @@ string input(void)
 int count_letters(string text) 
 {   
     int letters = 0;
-    for ( int i = 0, l = strlen(text); i < l; i++)
+    for (int i = 0, l = strlen(text); i < l; i++)
     {   
-            if (text[i] >= 'A' && text[i] <= 'z') //exclude chars other than letters
-            {
-                letters = letters + 1;
-            }
-            else 
-            {
-                letters = letters + 0;
-            }
+        if (text[i] >= 'A' && text[i] <= 'z') //exclude chars other than letters
+        {
+            letters = letters + 1;
+        }
+        else 
+        {
+            letters = letters + 0;
+        }
     }
 
 
@@ -111,7 +111,7 @@ int count_sentences(string text)
     int sum = 0;
     for (int i = 0, l = strlen(text); i < l; i++)
     {
-        if((text[i-1] >= 'A') && (text[i-1] <= 'z') && ((text[i] == '.') || (text[i] == '?') || (text[i] == '!')))
+        if ((text[i - 1] >= 'A') && (text[i - 1] <= 'z') && ((text[i] == '.') || (text[i] == '?') || (text[i] == '!')))
         {
             sentences = sentences + 1;
         }
