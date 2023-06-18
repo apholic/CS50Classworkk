@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 string input(void);
 int count_letters(string);
@@ -22,22 +23,23 @@ int main(void)
     //printf("%d sentences\n", sentences);
 
     //TO DO: calculate grade level using the Coleman-Liau intex: grade = 0.0588 * L - 0.296 * S - 15.8
-    int L = (letters / words) * 100;
-    int S = (sentences / words) * 100;
-    int grade = 0.0588 * L - 0.296 * S - 15.8;
+    float L = (letters * 100) / words;
+    float S = (sentences * 100) / words;
+    float grade = 0.0588 * L - 0.296 * S - 15.8;
+    int rgrade = round(grade);
 
     // TO DO: Print grade level.
-    if (grade >= 16)
+    if (rgrade >= 16)
     {
         printf("Grade 16+\n");
     }
-    else if (grade < 1)
+    else if (rgrade < 1)
     {
         printf("Before Grade 1\n");
     }
     else
     {
-        printf("Grade %d", grade);
+        printf("Grade %d", rgrade);
     }
 
 }
