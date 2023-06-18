@@ -6,16 +6,40 @@
 string input(void);
 int count_letters(string);
 int count_words(string);
+int count_sentences(string);
 
 int main(void) 
 {
     string text = input();
 
     int letters = count_letters(text);
-    printf("letters: %d\n", letters);
+    // printf("%d letters\n ", letters);
 
     int words = count_words(text);
-    printf("words: %d\n", words);
+    // printf("%d words\n", words);
+
+    int sentences = count_sentences(text);
+    //printf("%d sentences\n", sentences);
+
+    //TO DO: calculate grade level using the Coleman-Liau intex: grade = 0.0588 * L - 0.296 * S - 15.8
+    int L = (letters / words) * 100;
+    int S = (sentences / words) * 100;
+    int grade = 0.0588 * L - 0.296 * S - 15.8;
+
+    // TO DO: Print grade level.
+    if (grade >= 16)
+    {
+        printf("Grade 16+\n");
+    }
+    else if (grade < 1)
+    {
+        printf("Before Grade 1\n");
+    }
+    else
+    {
+        printf("Grade %d", grade);
+    }
+
 }
 
 //TO DO: prompt user imput
@@ -31,7 +55,7 @@ string input(void)
     return input;
 }
 
-//TO DO: Count the number of letters, words, and sentences.
+//TO DO: Count the number of letters. Exclude punctuations and characters that are not letters.
 
 int count_letters(string text) 
 {   
@@ -52,7 +76,7 @@ int count_letters(string text)
     return letters;
 }
 
-// TO DO: Count the number of words
+// TO DO: Count the number of words. Count spaces. Identify spaces in a row as one space.
 int count_words(string text)
 {
     int space = 0; 
@@ -77,8 +101,18 @@ int count_words(string text)
 
 }
 
-//TO DO: calculate grade level using the Coleman-Liau intex: index = 0.0588 * L - 0.296 * S - 15.8
+//TO DO: Count the number of sentences. Identify sentences as ending with '.', '!', or '?'
 
-
-
-// TO DO: Print grade level.
+int count_sentences(string text)
+{
+    int sentences = 0; 
+    int sum = 0;
+    for (int i = 0, l = strlen(text); i < l; i++)
+    {
+        if((text[i-1] >= 'A') && (text[i-1] <= 'z') && ((text[i] == '.') || (text[i] == '?') || (text[i] == '!')))
+        {
+            sentences = sentences + 1;
+        }
+    }
+    return sentences;
+}
