@@ -4,45 +4,53 @@
 #include <string.h>
 #include <stdlib.h>
 
-char AL[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-char al[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+string rotate(int key, string input);
 
 int main(int arc, string argv[]) 
 {   
-    int key = atoi(argv[1]);
     if (arc != 2)
     {
-        printf("\n Usage: ./caesar key:");
+        printf("Usage: ./caesar key:");
         return 1;
     }
-    else
+    else if (arc == 2)
     {
+        for (int ia = 0, la = strlen(argv[1]); ia < la; ia ++)
+        {
+            if (! isdigit(
+                argv[1][ia]))                 // my previous problem was that I didn't know we can zoom in the index by adding another bracket...
+            {
+                printf("Usage: ./caesar key:");
+                return 1;
+            }
+        }
+
         string input = get_string("plaintext: ");
         int l = strlen(input);
-        string cipher[l];
-
-        printf("ciphertext: ");
-        for (int i = 0; i < l; i++)
-        {   
-            int num;
-            if(islower(input[i]))
-            {
-                num = ((input[i] - 97) + key) % 26;
-                printf("%c", al[num]);
-            }
-            else if(isupper(input[i]))
-            {
-                num = ((input[i] - 65) + key) % 26;
-                printf("%c", AL[num]);
-            }
-            else
-            {
-                printf("%c", input[i]);
-            }
-            //printf("%d ", num);
-        }
+        int key = atoi(argv[1]);
+        printf("ciphertext: %s\n", rotate(key, input));
         return 0;
     }
-    
+}
 
+string rotate(int key, string input)
+{
+    int l = strlen(input);
+    for (int i = 0; i < l; i++)
+    {   
+        if (islower(input[i]))
+        {
+            input[i] = ((input[i] - 97) + key) % 26 + 97;
+        }
+        else if (isupper(input[i]))
+        {
+            input[i] = ((input[i] - 65) + key) % 26 + 65;
+        }
+        else
+        {
+            input[i] = input[i];
+        }
+        //printf("%d ", num);
+    }
+    return input;
 }
