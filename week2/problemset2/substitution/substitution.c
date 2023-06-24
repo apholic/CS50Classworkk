@@ -19,7 +19,7 @@ int main(int argc, string argv[])
     {   
         int seen[26] = {0};
 
-        for(int i = 0, l = strlen(argv[1]); i < l; i++)
+        for (int i = 0, l = strlen(argv[1]); i < l; i++)
         {
             if (l != L)    //not containing 26 characters
             {
