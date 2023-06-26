@@ -113,6 +113,7 @@ int main(int argc, string argv[])
         
         // Print the guess
         print_word(guess, wordsize, status);
+        printf("\n");
 
         // if they guessed it exactly right, set terminate loop
         if (score == EXACT * wordsize)
@@ -146,7 +147,7 @@ string get_guess(int wordsize)
     {
         guess = get_string("Input a %i-letter word: ", wordsize);
     }
-    while(strlen(guess) != wordsize);
+    while (strlen(guess) != wordsize);
     return guess;
 }
 
@@ -157,39 +158,42 @@ int check_word(string guess, int wordsize, int status[], string choice)
     // TODO #5
     for (int b = 0; b < wordsize; b++)
     {
-        if(guess[b] == choice [b])
+        if (guess[b] == choice [b])
         {
-            break;
             status[b] = EXACT;
         }
         else 
         {   
             int c = 0;
-            while (guess[b] != choice[c] && (c < wordsize))
+            while (c < wordsize)
             {
-                c++;
+                if (guess[b] == choice [c])
+                {
+                    status[b] = CLOSE;
+                    break;
+                }
+                else
+                {
+                    c++;
+                }
             }
             if (c == wordsize)
             {
                 status[b] = WRONG;
-            }
-            else
-            {
-                status[b] = CLOSE;
             }
         }
         score += status[b]; 
     }
     printf(RESET"\n");
     
-    // HINTS
-    // iterate over each letter of the guess
-        // iterate over each letter of the choice
-            // compare the current guess letter to the current choice letter
-                // if they're the same position in the word, score EXACT points (green) and break so you don't compare that letter further
-                // if it's in the word, but not the right spot, score CLOSE point (yellow)
-        // keep track of the total score by adding each individual letter's score from above
-
+/* HINTS
+- iterate over each letter of the guess
+- iterate over each letter of the choice
+    - compare the current guess letter to the current choice letter
+    - if they're the same position in the word, score EXACT points (green) and break so you don't compare that letter further
+    - if it's in the word, but not the right spot, score CLOSE point (yellow)
+- keep track of the total score by adding each individual letter's score from above
+*/
     return score;
 }
 
@@ -201,11 +205,11 @@ void print_word(string guess, int wordsize, int status[])
         {
             printf(GREEN"%c", guess[d]);
         }
-        if (status[d] == CLOSE)
+        else if (status[d] == CLOSE)
         {
             printf(YELLOW"%c", guess[d]);
         }
-        else
+        else if (status[d] == WRONG)
         {
             printf(RED"%c", guess[d]);
         }
