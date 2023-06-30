@@ -1,0 +1,66 @@
+sort1 uses: bubble sort
+
+time ./sort1 sorted10000.txt
+real    0m0.032s
+user    0m0.003s
+sys     0m0.020s
+
+time ./sort1 random10000.txt
+real    0m0.105s
+user    0m0.095s
+sys     0m0.011s
+
+time ./sort1 reversed10000.txt
+real    0m0.103s
+user    0m0.090s
+sys     0m0.013s
+
+How do you know?: sort1 uses selection sort because:
+1. There is a huge difference between the best scenario where the numbers are sorted (0.032s) and the worst case scenario with a reversed order (0.103s).
+For bubble sort, the best scenario only takes n steps, while other cases could take the order of n^2 steps
+Therefore, sort1 is more likely to be bubble sort.
+
+sort2 uses: merge sort
+
+time ./sort2 sorted10000.txt
+real    0m0.026s
+user    0m0.003s
+sys     0m0.023s
+
+time ./sort2 random10000.txt
+real    0m0.022s
+user    0m0.003s
+sys     0m0.019s
+
+time ./sort2 reversed10000.txt
+real    0m0.026s
+user    0m0.003s
+sys     0m0.024s
+
+How do you know?: Sort2 is merge sort since:
+1. For 10000 numbers in random order, sort2 uses least time of 0.22s among the three programs. 
+2. The running times for same amount of numbers in different orders are almost the same, which is a feature of merge sort, where the best case scenario and the worst case scenario both take nlogn steps.
+Therefore, sort2 is likely to be merge sort.
+
+sort3 uses: selection sort
+
+time ./sort3 sorted10000.txt
+real    0m0.065s
+user    0m0.044s
+sys     0m0.021s
+
+time ./sort3 random10000.txt
+real    0m0.052s
+user    0m0.039s
+sys     0m0.014s
+
+time ./sort3 reversed10000.txt
+real    0m0.056s
+user    0m0.048s
+sys     0m0.009s
+
+How do you know?:sort3 uses selection sort because:
+1. The running times for three different orders of numbers are almost the same, which matches the feature of selection sort where the best scenario and the worst scenario both take up the order of n^2 steps.
+and
+2. While merge sort also has the same running time for different cases, selection sort is more time-costly. 
+Therefore, sort3 is more likely to be bubble sort instead of merge sort.
