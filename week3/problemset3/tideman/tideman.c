@@ -152,25 +152,32 @@ void add_pairs(void)
 void sort_pairs(void)
 {
     //maybe use recursion?
-    int k[pair_count];
+    int k;
+    int max[pair_count];
+    int sortpairnum [pair_count];
     for (int i = 0; i < pair_count; i++)
-    {
-        k[i] = preferences[pairs[i].winner][pairs[i].loser];
-        printf("pairs[%i] has preference of %i \n", i, k[i]); 
-    }
-    for (int n = 0; n < pair_count; n++)
-    {  
-        int max = 0;
-        for (int m = 0; m < pair_count; m++)
-        {
-            if (k[m] >= max)
+    { 
+        max[i] = 0;
+        sortpairnum[i] = 0;
+        for (int n = 0; n < pair_count; n++)
+        {  
+            k = preferences[pairs[n].winner][pairs[n].loser];    //store number of preference for each pair;
+            printf("pairs[%i] has preference of %i \n", n, k);
+
+            if (i > 0 && n == sortpairnum[i - 1])
             {
-                max = k[m];
-                sort[n] = pairs[m];
+                break;
             }
-            printf("max: %i\n", max);
-            printf("sort[%i] = pairs[%i].winner = %i\n", n, m, pairs[m].winner);
-            printf("sort[%i] = pairs[%i].loser = %i\n", n, m, pairs[m].loser);
+            if (k > max[i] || (i > 0 && k == max [i - 1]))
+            {   
+                max[i] = k;      //record the maximum number in the loop. Maybe create an array to store k[i] in order?
+                sortpairnum[i] = n;
+                sort[i] = pairs[n];
+                printf("max[%i]: %i\n", i, max[i]);
+                printf("sortpairnum[%i] = %i\n", i, n);
+                printf("sort[%i] = pairs[%i].winner = %i\n", i, n, pairs[n].winner);
+                printf("sort[%i] = pairs[%i].loser = %i\n", i, n, pairs[n].loser);
+            }
         }
     }
     for (int i = 0; i < pair_count; i++)
