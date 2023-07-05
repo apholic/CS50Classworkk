@@ -19,10 +19,17 @@ typedef struct
 }
 pair;
 
+typedef struct
+{
+    int prefnum;
+    int pairnum;
+}
+sortpair;
+
 // Array of candidates
 string candidates[MAX];
 pair pairs[MAX * (MAX - 1) / 2];
-pair sort[MAX * (MAX - 1) / 2];
+sortpair sortpairs[MAX * (MAX - 1) / 2];
 
 int pair_count;
 int candidate_count;
@@ -120,7 +127,7 @@ void record_preferences(int ranks[])
         for (int j = (i + 1); j < candidate_count; j++)
         {
             preferences[ranks[i]][ranks[j]] += 1;    //update preferences by rank. Count every candidates ranked after the candidate with rank 0, 1, 2...   
-            printf("preference[%i][%i]: %i\n", ranks[i], ranks[j], preferences[ranks[i]][ranks[j]]);
+            //printf("preference[%i][%i]: %i\n", ranks[i], ranks[j], preferences[ranks[i]][ranks[j]]);
         }   
     }
     return;
@@ -139,9 +146,14 @@ void add_pairs(void)
             {   
                 pairs[pair_count].winner = i;   //record i, j in preference with pairs and count pair_count, starting from 0.
                 pairs[pair_count].loser = j;    //here the order of pair_count is not sorted.
-                printf("pairs[%i].winner = %i\n", pair_count, pairs[pair_count].winner);
-                printf("pairs[%i].loser = %i\n", pair_count, pairs[pair_count].loser);
+                //printf("pairs[%i].winner = %i\n", pair_count, pairs[pair_count].winner);
+                //printf("pairs[%i].loser = %i\n", pair_count, pairs[pair_count].loser);
+                sortpairs[pair_count].pairnum = pair_count;
+                sortpairs[pair_count].prefnum = preferences[pairs[pair_count].winner][pairs[pair_count].loser];
+                //printf("sortpairs[%i].pairnum = %i\n", pair_count, sortpairs[pair_count].pairnum);
+                //printf("sortpairs[%i].prefnum = %i\n", pair_count, sortpairs[pair_count].prefnum);
                 pair_count += 1;
+                //printf("\n");
             }
         }
     }   
@@ -151,59 +163,73 @@ void add_pairs(void)
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
-    //maybe use recursion?
-    int k;
-    int max[pair_count];
-    int sortpairnum [pair_count];
+    int k = 0;
     for (int i = 0; i < pair_count; i++)
-    { 
-        max[i] = 0;
-        sortpairnum[i] = 0;
-        for (int n = 0; n < pair_count; n++)
-        {  
-            k = preferences[pairs[n].winner][pairs[n].loser];    //store number of preference for each pair;
-            printf("pairs[%i] has preference of %i \n", n, k);
-
-            if (i > 0 && n == sortpairnum[i - 1])
+    {   
+        //find maximum preference number for each loop
+        int max = 0;
+        for (int j = i; j < pair_count; j++)
+        {
+            if (sortpairs[j].prefnum > max)
             {
-                break;
-            }
-            if (k > max[i] || (i > 0 && k == max [i - 1]))
-            {   
-                max[i] = k;      //record the maximum number in the loop. Maybe create an array to store k[i] in order?
-                sortpairnum[i] = n;
-                sort[i] = pairs[n];
-                printf("max[%i]: %i\n", i, max[i]);
-                printf("sortpairnum[%i] = %i\n", i, n);
-                printf("sort[%i] = pairs[%i].winner = %i\n", i, n, pairs[n].winner);
-                printf("sort[%i] = pairs[%i].loser = %i\n", i, n, pairs[n].loser);
+                max = sortpairs[j].prefnum;     
             }
         }
+        //printf("the %ith max number: %i\n", i + 1, max);
+        //printf("\n");
+        int temppref;
+        int temppair;
+        if (sortpairs[i].prefnum == max)
+        {   
+            //swap values
+            temppref = sortpairs[k].prefnum;    
+            temppair = sortpairs[k].pairnum;
+
+            sortpairs[k].prefnum = sortpairs[i].prefnum;
+            sortpairs[k].pairnum = sortpairs[i].pairnum;
+
+            sortpairs[i].prefnum = temppref;
+            sortpairs[i].pairnum = temppair;
+            
+            //printf("sorted order:\n");
+            //printf("sortpairs[%i].prefnum = %i\n", k, sortpairs[k].prefnum);
+            //printf("sortpairs[%i].pairnum = %i\n", k, sortpairs[k].pairnum);
+            k++;
+            //printf("\n");
+        }
     }
+
     for (int i = 0; i < pair_count; i++)
     {
-        pairs[i] = sort[i];      //copy the new order
-        printf("pairs[%i].winner = %i\n", i, pairs[i].winner);
-        printf("pairs[%i].loser = %i\n", i, pairs[i].loser);
+        pair temppair;
+        temppair = pairs[i];
+        pairs[i] = pairs[sortpairs[i].pairnum];
+        pairs[sortpairs[i].pairnum] = temppair;
+        //printf("pairs[%i].winner = %i\n", i, pairs[i].winner);
+        //printf("pairs[%i].loser = %i\n", i, pairs[i].loser);
     }
+    
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
-    {
-        if (preferences[pairs[i].winner][pairs[i].loser] > 0)
+    {   
+        if (pairs[pair_count - 1].loser == pairs[0].winner)
+        {
+            locked[pairs[pair_count - 1].winner][pairs[0].winner] = false;
+            //printf("locked[%i][%i]: false\n", pairs[pair_count].winner, pairs[0].winner);
+        }
+        else
         {
             locked[pairs[i].winner][pairs[i].loser] = true;
-            if (locked[pairs[i].winner][pairs[i].loser] == true)
-            {
-                printf("locked[%i][%i]: true\n", pairs[i].winner, pairs[i].loser);
-            }
+            printf("locked[%i][%i]: true\n", pairs[i].winner, pairs[i].loser);
         }
     }
     return;
 }
+
 
 // Print the winner of the election
 void print_winner(void)
@@ -216,10 +242,10 @@ void print_winner(void)
             if (locked[pairs[i].winner][pairs[i].loser] == true && 
                 locked[pairs[j].winner][pairs[i].winner] == false)
             {
+                
                 break;
             } 
         }
     }
-    printf("%s\n", candidates[pairs[i].winner]);
     return;
 }
