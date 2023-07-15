@@ -4,6 +4,8 @@
 #include <string.h>
 
 int selection(int, int number[]);
+void swap(int *a, int *b);
+
 //Selection sort: find the smallest unsorted element and add it to the end of the sorted list
 
 int main(void)
